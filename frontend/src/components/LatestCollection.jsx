@@ -12,7 +12,7 @@ function LatestCollection() {
     setLatestProducts(products.slice(0, 10));
   }, []);
 
-  console.log(latestProducts);
+  // console.log(latestProducts);
 
   return (
     <div className="my-10">

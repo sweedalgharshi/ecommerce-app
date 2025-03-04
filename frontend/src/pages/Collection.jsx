@@ -40,7 +40,7 @@ function Collection() {
       productsCopy = productsCopy.filter((item) => subCategory.includes(item.subCategory));
     }
 
-    console.log(productsCopy);
+    // console.log(productsCopy);
     setFilterProducts(productsCopy);
   };
 
