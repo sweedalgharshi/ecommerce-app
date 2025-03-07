@@ -11,7 +11,7 @@ function ShopContextProvider({ children }) {
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
 
-  const addToCart = (itemId, size) => {
+  const addToCart = async (itemId, size) => {
     if (!size) {
       toast.error("Select Product Size");
       return;
@@ -55,6 +55,14 @@ function ShopContextProvider({ children }) {
     return totalCount;
   };
 
+  const updateQuantity = async (itemId, size, quantity) => {
+    let cartData = structuredClone(cartItems);
+
+    cartData[itemId][size] = quantity;
+    console.log(cartData[itemId][size]);
+    setCartItems(cartData);
+  };
+
   // useEffect(
   //   function () {
   //     console.log(cartItems);
@@ -73,6 +81,7 @@ function ShopContextProvider({ children }) {
     cartItems,
     addToCart,
     getCartCount,
+    updateQuantity,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
