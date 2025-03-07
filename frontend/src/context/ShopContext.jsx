@@ -55,12 +55,12 @@ function ShopContextProvider({ children }) {
     return totalCount;
   };
 
-  useEffect(
-    function () {
-      console.log(cartItems);
-    },
-    [cartItems]
-  );
+  // useEffect(
+  //   function () {
+  //     console.log(cartItems);
+  //   },
+  //   [cartItems]
+  // );
 
   const value = {
     products,
