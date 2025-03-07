@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
+import { toast } from "react-toastify";
 
 export const ShopContext = createContext();
 
@@ -8,6 +9,58 @@ function ShopContextProvider({ children }) {
   const delivery_fee = 10;
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [cartItems, setCartItems] = useState({});
+
+  const addToCart = (itemId, size) => {
+    if (!size) {
+      toast.error("Select Product Size");
+      return;
+    }
+
+    let cartData = structuredClone(cartItems);
+
+    if (cartData[itemId]) {
+      // check if cartData as the itemId if it does then check if the size already there if yes increase by 1
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
+      } else {
+        // if size is not available for provide itemId then create it by 1
+        cartData[itemId][size] = 1;
+      }
+    }
+    // if the itemId is new then create new cartData OBJECt with provided ID and initialize it size with 1
+    else {
+      cartData[itemId] = {};
+      cartData[itemId][size] = 1;
+    }
+
+    setCartItems(cartData);
+  };
+
+  const getCartCount = () => {
+    let totalCount = 0;
+
+    for (const items in cartItems) {
+      // this will help to iterate the items in cartItems
+      for (const item in cartItems[items]) {
+        // this will help to iterate the items size
+        try {
+          if (cartItems[items][item] > 0) {
+            totalCount += cartItems[items][item];
+          }
+        } catch (error) {}
+      }
+    }
+
+    return totalCount;
+  };
+
+  useEffect(
+    function () {
+      console.log(cartItems);
+    },
+    [cartItems]
+  );
 
   const value = {
     products,
@@ -17,6 +70,9 @@ function ShopContextProvider({ children }) {
     setSearch,
     showSearch,
     setShowSearch,
+    cartItems,
+    addToCart,
+    getCartCount,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
