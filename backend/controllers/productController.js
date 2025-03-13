@@ -88,9 +88,43 @@ async function listProduct(req, res) {
 }
 
 // Function to remove product
-async function removeProduct(req, res) {}
+async function removeProduct(req, res) {
+  try {
+    await productModel.findByIdAndDelete(req.body.id);
+
+    res.json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 
 // Function to single product info
-async function singleProduct(req, res) {}
+async function singleProduct(req, res) {
+  try {
+    // will get productId from request body
+    const { productId } = req.body;
+
+    // using this productId we will get the product and which we can send as a response
+    const product = await productModel.findById(productId);
+
+    res.json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 
 export { addProduct, listProduct, removeProduct, singleProduct };
