@@ -67,7 +67,25 @@ async function addProduct(req, res) {
 }
 
 // Function to  list/get product
-async function listProduct(req, res) {}
+async function listProduct(req, res) {
+  try {
+    // create products variable where will store the productsData
+    const products = await productModel.find({});
+    // find method returns an ARRAY
+    console.log(Array.isArray(products));
+
+    res.json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 
 // Function to remove product
 async function removeProduct(req, res) {}
