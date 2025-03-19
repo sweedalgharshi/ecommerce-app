@@ -1,11 +1,59 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
-  const [currentState, setCurrentState] = useState("Sign Up");
+  const [currentState, setCurrentState] = useState("Login");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const { token, setToken, navigate, backendUrl } = useContext(ShopContext);
 
   async function onSubmitHandler(e) {
     e.preventDefault();
+    try {
+      if (currentState === "Sign Up") {
+        const response = await axios.post(backendUrl + "/api/user/register", {
+          name,
+          email,
+          password,
+        });
+        // console.log(response.data);
+        if (response.data.success === true) {
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message);
+        }
+      } else {
+        const response = await axios.post(backendUrl + "/api/user/login", {
+          email,
+          password,
+        });
+        // console.log(response.data);
+        if (response.data.success === true) {
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+        } else {
+          toast.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   }
+
+  useEffect(
+    function () {
+      if (token) {
+        navigate("/");
+      }
+    },
+    [token]
+  );
 
   return (
     <form
@@ -25,6 +73,8 @@ function Login() {
           className="w-full px-3 py-2 border border-gray-800"
           placeholder="Name"
           required
+          onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       )}
 
@@ -33,12 +83,16 @@ function Login() {
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Email"
         required
+        onChange={(e) => setEmail(e.target.value)}
+        value={email}
       />
       <input
         type="password"
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Password"
         required
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
       />
 
       <div className=" w-full flex justify-between text-sm mt-[-8px]">
