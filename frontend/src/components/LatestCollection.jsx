@@ -8,9 +8,12 @@ function LatestCollection() {
   const { products } = useContext(ShopContext);
   const [latestProducts, setLatestProducts] = useState([]);
 
-  useEffect(function () {
-    setLatestProducts(products.slice(0, 10));
-  }, []);
+  useEffect(
+    function () {
+      setLatestProducts(products.slice(0, 10));
+    },
+    [products]
+  );
 
   // console.log(latestProducts);
 
