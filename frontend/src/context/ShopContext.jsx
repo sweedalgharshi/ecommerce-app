@@ -25,6 +25,7 @@ function ShopContextProvider({ children }) {
     }
 
     let cartData = structuredClone(cartItems);
+    console.log(cartItems);
 
     if (cartData[itemId]) {
       // check if cartData as the itemId if it does then check if the size already there if yes increase by 1

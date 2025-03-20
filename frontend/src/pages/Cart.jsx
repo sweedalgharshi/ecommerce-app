@@ -14,8 +14,11 @@ function Cart() {
         let tempData = [];
 
         for (const items in cartItems) {
+          console.log(cartItems);
           for (const item in cartItems[items]) {
+            console.log(cartItems[items]);
             if (cartItems[items][item] > 0) {
+              console.log(cartItems[items][item]);
               tempData.push({
                 _id: items,
                 size: item,
