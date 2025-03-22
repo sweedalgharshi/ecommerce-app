@@ -103,7 +103,7 @@ function ShopContextProvider({ children }) {
         try {
           if (cartItems[items][item] > 0) {
             totalAmount += itemInfo.price * cartItems[items][item];
-            console.log(totalAmount);
+            // console.log(totalAmount);
           }
         } catch (error) {}
       }
@@ -131,7 +131,7 @@ function ShopContextProvider({ children }) {
   async function getUserCart(token) {
     try {
       const response = await axios.post(backendUrl + "/api/cart/get", {}, { headers: { token } });
-      console.log(response.data);
+      // console.log(response.data);
 
       if (response.data.success) {
         setCartItems(response.data.cartData);
@@ -169,6 +169,7 @@ function ShopContextProvider({ children }) {
     showSearch,
     setShowSearch,
     cartItems,
+    setCartItems,
     addToCart,
     getCartCount,
     updateQuantity,
