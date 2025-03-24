@@ -36,10 +36,30 @@ async function placeOrderStripe(req, res) {}
 async function placeOrderRazorPay(req, res) {}
 
 // All orders data for admin panel
-async function allOrders(req, res) {}
+async function allOrders(req, res) {
+  try {
+    const orders = await orderModel.find({});
+
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
 
 // User order data for frontend -- using this function we can display orders for a particular user on myOrder page
-async function userOrder(req, res) {}
+async function userOrder(req, res) {
+  try {
+    const { userId } = req.body;
+
+    const orders = await orderModel.find({ userId });
+
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
 
 // update order status from Admin panel-- only admin can change the status
 async function updateOrderStatus(req, res) {}

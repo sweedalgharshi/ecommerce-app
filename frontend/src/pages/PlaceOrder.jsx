@@ -73,19 +73,22 @@ function PlaceOrder() {
           });
           console.log(response.data);
 
-          // if (response.data.success === true) {
-          //   setCartItems({});
-          //   navigate("/orders");
-          // } else {
-          //   toast.error(response.data.message);
-          // }
+          if (response.data.success === true) {
+            setCartItems({});
+            navigate("/orders");
+          } else {
+            toast.error(response.data.message);
+          }
 
           break;
 
         default:
           break;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   }
 
   return (
